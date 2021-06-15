@@ -1,5 +1,6 @@
+import AppLoading from 'expo-app-loading'
 import React from 'react'
-import { Home } from './src/screens/Home'
+import { ThemeProvider } from 'styled-components'
 
 import {
   Archivo_400Regular,
@@ -11,9 +12,10 @@ import {
   Inter_500Medium,
   useFonts
 } from '@expo-google-fonts/inter'
-import AppLoading from 'expo-app-loading'
+
+import { Home } from './src/screens/Home'
+import { CarDetails } from './src/screens/CarDetails'
 import theme from './src/styles/theme'
-import { ThemeProvider } from 'styled-components'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +32,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      <CarDetails />
     </ThemeProvider>
   )
 }
