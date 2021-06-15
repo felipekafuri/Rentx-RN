@@ -1,19 +1,36 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { Home } from './src/screens/Home'
+
+import {
+  Archivo_400Regular,
+  Archivo_500Medium,
+  Archivo_600SemiBold
+} from '@expo-google-fonts/archivo'
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  useFonts
+} from '@expo-google-fonts/inter'
+import AppLoading from 'expo-app-loading'
+import theme from './src/styles/theme'
+import { ThemeProvider } from 'styled-components'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
-}
+  const [fontsLoaded] = useFonts({
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_600SemiBold,
+    Inter_400Regular,
+    Inter_500Medium
+  })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Home />
+    </ThemeProvider>
+  )
+}
