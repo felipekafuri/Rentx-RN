@@ -29,14 +29,20 @@ import {
 } from './styles'
 import { Button } from '../../components/Button'
 import { useTheme } from 'styled-components/native'
+import { useNavigation } from '@react-navigation/native'
 
 export function CarDetails() {
   const theme = useTheme()
+  const { goBack, navigate } = useNavigation()
+
+  function handleSchedule() {
+    navigate('Scheduling')
+  }
 
   return (
     <Container>
       <Header>
-        <BackButton />
+        <BackButton onPress={goBack} />
       </Header>
 
       <CarImages>
@@ -76,7 +82,7 @@ export function CarDetails() {
       </Content>
 
       <Footer>
-        <Button title="Alugar" />
+        <Button title="Escolher período do aluguel" onPress={handleSchedule} />
       </Footer>
     </Container>
   )

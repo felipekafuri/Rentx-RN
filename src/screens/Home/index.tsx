@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -7,6 +8,8 @@ import { CarCard } from '../../components/CarCard'
 import { Container, Header, TotalCars, HeaderContent, CarData } from './styles'
 
 export function Home() {
+  const { navigate } = useNavigation()
+
   const data = {
     brand: 'audi',
     name: 'RS 5 Coupé',
@@ -16,6 +19,10 @@ export function Home() {
     },
     thumbnail:
       'https://images.dealer.com/ddc/vehicles/2020/Audi/S5/Hatchback/perspective/front-left/2020_24.png'
+  }
+
+  function handleCarDetail() {
+    navigate('CarDetails')
   }
 
   return (
@@ -36,7 +43,9 @@ export function Home() {
       <CarData
         data={[1, 2, 3]}
         keyExtractor={item => String(item)}
-        renderItem={({ item }) => <CarCard data={data} />}
+        renderItem={({ item }) => (
+          <CarCard data={data} onPress={handleCarDetail} />
+        )}
       />
     </Container>
   )
