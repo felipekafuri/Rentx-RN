@@ -1,6 +1,7 @@
 import { EdgeInsetsPropType, FlatList } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { Car } from '../../dtos/CarDTO'
 
 export const Container = styled.View`
   flex: 1;
@@ -28,7 +29,7 @@ export const TotalCars = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `
 
-export const CarData = styled(FlatList).attrs({
+export const CarData = styled(FlatList as new () => FlatList<Car>).attrs({
   contentContainerStyle: {
     padding: 24
   },
