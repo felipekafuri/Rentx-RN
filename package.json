@@ -6,7 +6,7 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "api":"json-server server.json --port 3333 --delay 700"
+    "api": "json-server server.json --port 3333 --delay 700"
   },
   "dependencies": {
     "@expo-google-fonts/archivo": "^0.1.0",
@@ -15,6 +15,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "axios": "^0.21.1",
+    "date-fns": "^2.22.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "expo": "~41.0.1",
     "expo-app-loading": "^1.0.3",
@@ -24,7 +25,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
-    "react-native-calendars": "^1.1263.0",
+    "react-native-calendars": "^1.1264.0",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-iphone-x-helper": "^1.3.1",
     "react-native-reanimated": "~2.1.0",

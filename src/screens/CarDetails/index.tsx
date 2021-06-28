@@ -4,13 +4,6 @@ import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { ImageSlider } from '../../components/ImageSlider'
 
-import SpeedSvg from '../../assets/speed.svg'
-import AccelerateSvg from '../../assets/acceleration.svg'
-import ForceSvg from '../../assets/force.svg'
-import GasolineSvg from '../../assets/gasoline.svg'
-import ExchangeSvg from '../../assets/exchange.svg'
-import PeopleSvg from '../../assets/people.svg'
-
 import {
   About,
   AccessoriesContainer,
@@ -29,14 +22,23 @@ import {
 } from './styles'
 import { Button } from '../../components/Button'
 import { useTheme } from 'styled-components/native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { Car } from '../../dtos/CarDTO'
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
+
+interface Params {
+  car: Car
+}
 
 export function CarDetails() {
   const theme = useTheme()
   const { goBack, navigate } = useNavigation()
 
+  const route = useRoute()
+  const { car } = route.params as Params
+
   function handleSchedule() {
-    navigate('Scheduling')
+    navigate('Scheduling', { car })
   }
 
   return (
@@ -46,39 +48,31 @@ export function CarDetails() {
       </Header>
 
       <CarImages>
-        <ImageSlider
-          imagesUrls={[
-            'https://images.dealer.com/ddc/vehicles/2020/Audi/S5/Hatchback/perspective/front-left/2020_24.png'
-          ]}
-        />
+        <ImageSlider imagesUrls={car.photos} />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Audi</Brand>
-            <Name>RS 5 coupé</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 500</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Rent>
         </Details>
         <AccessoriesContainer>
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="3.2s" icon={AccelerateSvg} />
-          <Accessory name="220hp" icon={ForceSvg} />
-          <Accessory name="Gasolina" icon={GasolineSvg} />
-          <Accessory name="Auto" icon={ExchangeSvg} />
-          <Accessory name="5 pessoas" icon={PeopleSvg} />
+          {car.accessories.map(accessory => (
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={getAccessoryIcon(accessory.type)}
+            />
+          ))}
         </AccessoriesContainer>
-        <About>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla sint
-          excepturi sapiente a laboriosam laborum, nesciunt distinctio eaque
-          enim temporibus amet fuga labore qui officia doloribus. Voluptatibus
-          placeat explicabo illum.
-        </About>
+        <About>{car.about}</About>
       </Content>
 
       <Footer>
