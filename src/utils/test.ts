@@ -1,0 +1,1 @@
+function hoursToSeconds(hours: number) {}

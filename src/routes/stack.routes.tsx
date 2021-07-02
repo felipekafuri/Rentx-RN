@@ -7,12 +7,14 @@ import { Scheduling } from '../screens/Scheduling'
 import { ScheduleDetails } from '../screens/ScheduleDetails'
 import { ScheduleComplete } from '../screens/ScheduleComplete'
 import { MyCars } from '../screens/MyCars'
+import { Splash } from '../screens/Splash'
 
 const { Navigator, Screen } = createStackNavigator()
 
 export function StackRoutes() {
   return (
     <Navigator headerMode="none">
+      <Screen component={Splash} name="Splash" />
       <Screen component={Home} name="Home" />
       <Screen component={CarDetails} name="CarDetails" />
       <Screen component={Scheduling} name="Scheduling" />
