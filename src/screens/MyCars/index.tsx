@@ -24,6 +24,7 @@ import {
   CarFooterPeriod,
   CarFooterDate
 } from './styles'
+import { AnimatedLoading } from '../../components/AnimatedLoading'
 
 interface CarProps {
   car: Car
@@ -75,33 +76,36 @@ export function MyCars() {
 
           <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
         </Appointments>
+        {loading ? (
+          <AnimatedLoading />
+        ) : (
+          <FlatList
+            data={cars}
+            keyExtractor={item => item.car.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <CarWrapper>
+                <CarCard data={item.car} />
+                <CarFooter>
+                  <CarFooterTitle>PERÍODO</CarFooterTitle>
 
-        <FlatList
-          data={cars}
-          keyExtractor={item => item.car.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <CarWrapper>
-              <CarCard data={item.car} />
-              <CarFooter>
-                <CarFooterTitle>PERÍODO</CarFooterTitle>
-
-                <CarFooterPeriod>
-                  <CarFooterDate>{item.startDate}</CarFooterDate>
-                  <AntDesign
-                    size={20}
-                    name="arrowright"
-                    color={theme.colors.title}
-                    style={{
-                      marginHorizontal: 10
-                    }}
-                  />
-                  <CarFooterDate>{item.endDate}</CarFooterDate>
-                </CarFooterPeriod>
-              </CarFooter>
-            </CarWrapper>
-          )}
-        />
+                  <CarFooterPeriod>
+                    <CarFooterDate>{item.startDate}</CarFooterDate>
+                    <AntDesign
+                      size={20}
+                      name="arrowright"
+                      color={theme.colors.title}
+                      style={{
+                        marginHorizontal: 10
+                      }}
+                    />
+                    <CarFooterDate>{item.endDate}</CarFooterDate>
+                  </CarFooterPeriod>
+                </CarFooter>
+              </CarWrapper>
+            )}
+          />
+        )}
       </Content>
     </Container>
   )
