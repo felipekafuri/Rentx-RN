@@ -6,6 +6,10 @@ interface ButtonProps {
   color?: string
 }
 
+interface TitleProps {
+  light: boolean
+}
+
 export const Container = styled(RectButton)<ButtonProps>`
   width: 100%;
 
@@ -14,9 +18,11 @@ export const Container = styled(RectButton)<ButtonProps>`
   justify-content: center;
 
   background-color: ${({ theme, color }) => color || theme.colors.main};
+  margin-bottom: 8px;
 `
-export const ButtonText = styled.Text`
+export const ButtonText = styled.Text<TitleProps>`
   font-family: ${({ theme }) => theme.fonts.primary_500};
   font-size: ${RFValue(15)}px;
-  color: ${({ theme }) => theme.colors.shape};
+  color: ${({ light, theme }) =>
+    light ? theme.colors.header : theme.colors.shape};
 `
