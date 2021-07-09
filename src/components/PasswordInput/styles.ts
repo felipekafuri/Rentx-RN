@@ -17,6 +17,8 @@ export const Container = styled.View<ContainerProps>`
       border-bottom-width: 2px;
       border-bottom-color: ${theme.colors.main};
     `}
+
+  margin-bottom: 8px;
 `
 
 export const IconContainer = styled.View`

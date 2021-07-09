@@ -3,20 +3,51 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Alert
 } from 'react-native'
 import { useTheme } from 'styled-components'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { PasswordInput } from '../../components/PasswordInput'
 
+import * as yup from 'yup'
+
 import { Container, Header, Subtitle, Title, Footer, Form } from './styles'
+import { useNavigation } from '@react-navigation/native'
 
 export function SignIn() {
   const theme = useTheme()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const { navigate } = useNavigation()
+
+  async function handleSignIn() {
+    try {
+      const schema = yup.object().shape({
+        email: yup
+          .string()
+          .required('E-mail obrigatório.')
+          .email('Digite um e-mail válido.'),
+        password: yup.string().required('A senha é obrigatória')
+      })
+
+      await schema.validate({ email, password })
+
+      Alert.alert('Tudo certo!')
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        Alert.alert('Opa', err.message)
+      } else {
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login, verifique as credenciais'
+        )
+      }
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>
@@ -54,10 +85,15 @@ export function SignIn() {
             />
           </Form>
           <Footer>
-            <Button title="Login" onPress={() => {}} enabled loading={false} />
+            <Button
+              title="Login"
+              onPress={handleSignIn}
+              enabled
+              loading={false}
+            />
             <Button
               title="Criar conta gratuita"
-              onPress={() => {}}
+              onPress={() => navigate('SignUpFirstStep')}
               enabled
               loading={false}
               color={theme.colors.background_secondary}
