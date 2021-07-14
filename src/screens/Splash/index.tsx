@@ -53,7 +53,7 @@ export function Splash() {
   })
 
   const startApp = useCallback(() => {
-    navigate('Home')
+    navigate('SignIn')
   }, [navigate])
 
   useEffect(() => {

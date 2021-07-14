@@ -5,14 +5,23 @@ import DoneSvg from '../../assets/done.svg'
 import { Container, Content, Title, Message, Footer } from './styles'
 import { StatusBar, useWindowDimensions } from 'react-native'
 import { ConfirmButton } from '../../components/ConfirmButton'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-export function ScheduleComplete() {
+interface Params {
+  title: string
+  message: string
+  nextScreenName: string
+}
+
+export function Confirmation() {
   const { width } = useWindowDimensions()
   const { navigate } = useNavigation()
 
+  const { params } = useRoute()
+  const { title, message, nextScreenName } = params as Params
+
   function handleNavigateBack() {
-    navigate('Home')
+    navigate(nextScreenName)
   }
 
   return (
@@ -27,12 +36,8 @@ export function ScheduleComplete() {
       <Content>
         <DoneSvg width={80} height={80} />
 
-        <Title>Carro alugado</Title>
-        <Message>
-          Agora você só precisa ir{'\n'}
-          até a concessionária da Rentx{'\n'}
-          pegar o seu automóvel.
-        </Message>
+        <Title>{title}</Title>
+        <Message>{message}</Message>
       </Content>
 
       <Footer>

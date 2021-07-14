@@ -13,7 +13,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  margin-top: ${getStatusBarHeight() + 25};
+  margin-top: ${getStatusBarHeight() + 25}px;
 `
 
 export const Steps = styled.View`

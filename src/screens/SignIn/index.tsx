@@ -15,12 +15,15 @@ import * as yup from 'yup'
 
 import { Container, Header, Subtitle, Title, Footer, Form } from './styles'
 import { useNavigation } from '@react-navigation/native'
+import { useAuth } from '../../hooks/auth'
 
 export function SignIn() {
   const theme = useTheme()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const { signIn } = useAuth()
 
   const { navigate } = useNavigation()
 
@@ -35,6 +38,8 @@ export function SignIn() {
       })
 
       await schema.validate({ email, password })
+
+      await signIn({ email, password })
 
       Alert.alert('Tudo certo!')
     } catch (err) {

@@ -79,12 +79,6 @@ export function Home() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true
-    })
-  }, [])
-
   return (
     <Container>
       <StatusBar
