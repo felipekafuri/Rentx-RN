@@ -1,4 +1,11 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect
+} from 'react'
 import { api } from '../services/api'
 
 interface User {
@@ -32,6 +39,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>({} as AuthState)
+
+  useEffect(() => {})
 
   async function signIn({ email, password }: SignInCredentials) {
     const response = await api.post('/sessions', { email, password })
