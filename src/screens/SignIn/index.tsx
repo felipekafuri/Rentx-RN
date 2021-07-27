@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -16,6 +16,8 @@ import * as yup from 'yup'
 import { Container, Header, Subtitle, Title, Footer, Form } from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '../../hooks/auth'
+
+import { database } from '../../databases'
 
 export function SignIn() {
   const theme = useTheme()
@@ -40,8 +42,6 @@ export function SignIn() {
       await schema.validate({ email, password })
 
       await signIn({ email, password })
-
-      Alert.alert('Tudo certo!')
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         Alert.alert('Opa', err.message)
