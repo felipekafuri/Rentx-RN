@@ -121,12 +121,7 @@ export function CarDetails() {
             />
           ))}
         </AccessoriesContainer>
-        <About>
-          {car.about}
-          {car.about}
-          {car.about}
-          {car.about}
-        </About>
+        <About>{car.about}</About>
       </Animated.ScrollView>
 
       <Footer>

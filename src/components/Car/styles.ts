@@ -1,28 +1,25 @@
+import styled from 'styled-components/native'
 import { RectButton } from 'react-native-gesture-handler'
 import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
+import FastImage from 'react-native-fast-image'
 
 export const Container = styled(RectButton)`
   width: 100%;
-  height: ${RFValue(126)}px;
-
+  height: 126px;
   background-color: ${({ theme }) => theme.colors.background_secondary};
-
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   padding: 24px;
   margin-bottom: 16px;
 `
 
-export const Detail = styled.View``
+export const Details = styled.View``
 
 export const Brand = styled.Text`
   font-family: ${({ theme }) => theme.fonts.secondary_500};
   color: ${({ theme }) => theme.colors.text_detail};
   font-size: ${RFValue(10)}px;
-
   text-transform: uppercase;
 `
 
@@ -46,7 +43,6 @@ export const Period = styled.Text`
   font-family: ${({ theme }) => theme.fonts.secondary_500};
   color: ${({ theme }) => theme.colors.text_detail};
   font-size: ${RFValue(10)}px;
-
   text-transform: uppercase;
 `
 
@@ -58,7 +54,7 @@ export const Price = styled.Text`
 
 export const Type = styled.View``
 
-export const CarImage = styled.Image`
+export const CarImage = styled(FastImage)`
   width: 167px;
   height: 85px;
 `

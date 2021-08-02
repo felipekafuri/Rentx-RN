@@ -11,7 +11,7 @@ import { api } from '../../services/api'
 import Logo from '../../assets/logo.svg'
 import { Car as CarDTO } from '../../dtos/CarDTO'
 
-import { CarCard } from '../../components/CarCard'
+import { Car } from '../../components/Car'
 import { Car as ModelCar } from '../../databases/models/Car'
 import { AnimatedLoading } from '../../components/AnimatedLoading'
 
@@ -99,7 +99,7 @@ export function Home() {
           data={cars}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <CarCard data={item} onPress={() => handleCarDetails(item)} />
+            <Car data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}
