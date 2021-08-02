@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {
   createContext,
   useState,
@@ -6,13 +5,14 @@ import React, {
   ReactNode,
   useEffect
 } from 'react'
-import { database } from '../databases'
-import { api } from '../services/api'
-import { User } from '../databases/models/User'
 
-interface IUser {
-  user_id: string
+import { api } from '../services/api'
+import { database } from '../databases'
+import { User as ModelUser } from '../databases/models/User'
+
+interface User {
   id: string
+  user_id: string
   email: string
   name: string
   driver_license: string
@@ -26,8 +26,10 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  user: IUser
+  user: User
   signIn: (credentials: SignInCredentials) => Promise<void>
+  signOut: () => Promise<void>
+  updateUser: (user: User) => Promise<void>
 }
 
 interface AuthProviderProps {
@@ -37,22 +39,24 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [data, setData] = useState<IUser>({} as IUser)
+  const [data, setData] = useState<User>({} as User)
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
-      const response = await api.post('/sessions', { email, password })
+      const response = await api.post('/sessions', {
+        email,
+        password
+      })
 
-      const { user, token } = response.data
-
+      const { token, user } = response.data
       api.defaults.headers.authorization = `Bearer ${token}`
 
-      const userCollection = database.get<User>('users')
+      const userCollection = database.get<ModelUser>('users')
       await database.action(async () => {
         await userCollection.create(newUser => {
-          newUser.id = user.id
-          newUser.email = user.email
+          newUser.user_id = user.id
           newUser.name = user.name
+          newUser.email = user.email
           newUser.driver_license = user.driver_license
           newUser.avatar = user.avatar
           newUser.token = token
@@ -65,13 +69,45 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    try {
+      const userCollection = database.get<ModelUser>('users')
+      await database.action(async () => {
+        const userSelected = await userCollection.find(data.id)
+        await userSelected.destroyPermanently()
+      })
+
+      setData({} as User)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  async function updateUser(user: User) {
+    try {
+      const userCollection = database.get<ModelUser>('users')
+      await database.action(async () => {
+        const userSelected = await userCollection.find(user.id)
+        await userSelected.update(userData => {
+          userData.name = user.name
+          userData.driver_license = user.driver_license
+          userData.avatar = user.avatar
+        })
+      })
+
+      setData(user)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   useEffect(() => {
     async function loadUserData() {
-      const userCollection = database.get<User>('users')
+      const userCollection = database.get<ModelUser>('users')
       const response = await userCollection.query().fetch()
 
       if (response.length > 0) {
-        const userData = response[0]._raw as unknown as IUser
+        const userData = response[0]._raw as unknown as User
         api.defaults.headers.authorization = `Bearer ${userData.token}`
         setData(userData)
       }
@@ -81,15 +117,23 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user: data, signIn }}>
+    <AuthContext.Provider
+      value={{
+        user: data,
+        signIn,
+        signOut,
+        updateUser
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
 }
 
 function useAuth(): AuthContextData {
-  const auth = useContext(AuthContext)
-  return auth
+  const context = useContext(AuthContext)
+
+  return context
 }
 
-export { useAuth, AuthProvider }
+export { AuthProvider, useAuth }

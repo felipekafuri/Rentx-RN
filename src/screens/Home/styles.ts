@@ -1,8 +1,7 @@
 import { EdgeInsetsPropType, FlatList } from 'react-native'
-import { RectButton } from 'react-native-gesture-handler'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { Car } from '../../dtos/CarDTO'
+import { Car } from '../../databases/models/car'
 
 export const Container = styled.View`
   flex: 1;
