@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { useNetInfo } from '@react-native-community/netinfo'
@@ -40,7 +40,7 @@ export function Home() {
       },
       pushChanges: async ({ changes }) => {
         const user = changes.users
-        await api.post('/users/sync', user)
+        await api.post('/users/sync', user).catch(console.log)
       }
     })
   }
@@ -71,11 +71,13 @@ export function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    if (netInfo.isConnected === true) {
-      offlineSynchronize()
-    }
-  }, [netInfo.isConnected])
+  useFocusEffect(
+    useCallback(() => {
+      if (netInfo.isConnected === true) {
+        offlineSynchronize()
+      }
+    }, [netInfo.isConnected])
+  )
 
   return (
     <Container>

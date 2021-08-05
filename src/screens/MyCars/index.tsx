@@ -28,6 +28,7 @@ import {
   CarFooterPeriod,
   CarFooterDate
 } from './styles'
+import { useIsFocused } from '@react-navigation/native'
 
 interface CarProps {
   id: string
@@ -50,6 +51,8 @@ export function MyCars() {
 
   const navigation = useNavigation()
   const theme = useTheme()
+
+  const isFocused = useIsFocused()
 
   function handleBack() {
     navigation.goBack()
@@ -75,7 +78,7 @@ export function MyCars() {
     }
 
     fetchCars()
-  }, [])
+  }, [isFocused])
 
   return (
     <Container>
@@ -85,7 +88,6 @@ export function MyCars() {
           translucent
           backgroundColor="transparent"
         />
-        <BackButton onPress={handleBack} color={theme.colors.shape} />
 
         <Title>
           Escolha uma {'\n'}

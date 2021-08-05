@@ -114,6 +114,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         setData(userData)
         setLoading(false)
       }
+      setLoading(false)
     }
 
     loadUserData()
